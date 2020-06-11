@@ -10,7 +10,7 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 BLUE = (0, 0, 128)
 GREEN = (0, 255, 0)
-G = -10 # gravitational constant
+G = -20 # gravitational constant
 
 # Catapult variables
 cw_x = 255
@@ -121,7 +121,7 @@ while running:
 
     else:
         t += clock.get_time()/1000
-        s = (si[0] + vx*t , si[1] - ((vy*t) + (0.5*G*t*t)))
+        s = (si[0] + (vx*t)*2 , si[1] - (((vy*t) + (0.5*G*t*t)))*2) # *2 for pixel-to-meter ratio adjustment
         v = sqrt(pow(vx, 2) + pow(vy, 2))
         screen.fill((0, 0, 0))
         screen.blit(ballImg, s)
@@ -130,7 +130,7 @@ while running:
             travel = False
             vx = 0
             vy = 0
-            vi = 5
+            vi = 50
             v = 0
             s = (ball_x, ball_y)
             si = s
@@ -147,9 +147,11 @@ while running:
     text_vx_pos = (10, 60)
     text_vy = font.render("vy = %.1f m/s" % vy, True, WHITE)
     text_vy_pos = (10, 80)
+    text_v = font.render("v = %.1f m/s" % v, True, WHITE)
+    text_v_pos = (10, 100)
     text_x = font.render("x = %.1f m" % s[0], True, WHITE)
     text_x_pos = (10, 120)
-    text_y = font.render("y = %.1f m" % s[1], True, WHITE)
+    text_y = font.render("y = %.1f m" % (si[1] + (((vy*t) + (0.5*G*t*t)))), True, WHITE)
     text_y_pos = (10, 140)
     text_t = font.render("t = %.1f s" % t, True, WHITE)
     text_t_pos = (10, 160)
@@ -159,6 +161,7 @@ while running:
     screen.blit(text_vi, text_vi_pos)
     screen.blit(text_vx, text_vx_pos)
     screen.blit(text_vy, text_vy_pos)
+    screen.blit(text_v, text_v_pos)
     screen.blit(text_x, text_x_pos)
     screen.blit(text_y, text_y_pos)
     screen.blit(text_theta, text_theta_pos)
